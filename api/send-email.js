@@ -33,8 +33,9 @@ export default async function handler(req, res) {
 
     console.log('🔑 API Key status:', process.env.RESEND_API_KEY ? 'EXISTS' : 'MISSING');
     console.log('🔑 API Key prefix:', process.env.RESEND_API_KEY?.substring(0, 8) || 'NONE');
+    console.log('📧 About to call Resend API...');
 
-    // Create HTML email template
+    // Send email using Resend
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #2c5530; border-bottom: 2px solid #6b9071; padding-bottom: 10px;">
@@ -68,17 +69,18 @@ export default async function handler(req, res) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
+      from: 'onboarding@resend.dev', // Simplified - no custom name
       to: ['lvillegas75@gmail.com'], // Your email for testing
       subject: `New Project Estimate Request from ${name}`,
       html: emailHtml,
     });
 
     if (error) {
-      console.error('❌ Resend error:', error);
+      console.error('❌ Resend error details:', JSON.stringify(error, null, 2));
       return res.status(500).json({ 
         error: 'Failed to send email',
-        details: error.message || 'Resend API error'
+        details: error.message || error.name || 'Resend API error',
+        resendError: error
       });
     }
 
