@@ -8,6 +8,11 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  // Add debugging
+  console.log('🔍 API called - Method:', req.method);
+  console.log('🔍 Request body:', JSON.stringify(req.body, null, 2));
+  console.log('🔍 Environment variable exists:', !!process.env.RESEND_API_KEY);
+
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
@@ -20,10 +25,15 @@ export default async function handler(req, res) {
   try {
     const { name, email, phone, projectType, message } = req.body;
 
+    console.log('🔍 Extracted fields:', { name, email, phone, projectType, message });
+
     // Validate required fields
     if (!name || !email || !phone) {
+      console.log('❌ Validation failed - missing required fields');
       return res.status(400).json({ error: 'Name, email, and phone are required' });
     }
+
+    console.log('✅ Validation passed, attempting to send email...');
 
     // Send email to DJ
     const { data, error } = await resend.emails.send({
@@ -61,12 +71,14 @@ export default async function handler(req, res) {
       `,
     });
 
+    console.log('📧 Resend API call completed');
+    
     if (error) {
-      console.error('Resend error:', error);
+      console.error('❌ Resend error:', error);
       return res.status(400).json({ error: error.message });
     }
 
-    console.log('Email sent successfully:', data);
+    console.log('✅ Email sent successfully:', data);
     res.status(200).json({ 
       message: 'Email sent successfully', 
       id: data.id 
