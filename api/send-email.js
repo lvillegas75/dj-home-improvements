@@ -1,11 +1,11 @@
-// Simple test version - no dependencies
+// Simple test version - no dependencies - UPDATED
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  console.log('🔍 FUNCTION CALLED!');
+  console.log('🔍 FUNCTION CALLED! - NEW VERSION');
   console.log('🔍 Method:', req.method);
   console.log('🔍 Body:', req.body);
 
