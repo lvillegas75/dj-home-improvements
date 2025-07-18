@@ -70,7 +70,7 @@ export default async function handler(req, res) {
     // Send email using Resend
     const { data, error } = await resend.emails.send({
       from: 'onboarding@resend.dev', // Simplified - no custom name
-      to: ['lvillegas75@gmail.com'], // Your email for testing
+      to: ['landon.villegas00@gmail.com'], // FIXED: Your actual Resend account email
       subject: `New Project Estimate Request from ${name}`,
       html: emailHtml,
     });
