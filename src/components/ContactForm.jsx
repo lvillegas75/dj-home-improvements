@@ -25,22 +25,9 @@ const ContactForm = () => {
         setSubmitStatus('');
         
         try {
-            // Check if we're in development mode
-            if (process.env.NODE_ENV === 'development') {
-                // Mock response for local testing
-                console.log('LOCAL DEVELOPMENT - Form data:', formData);
-                
-                // Simulate API delay
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Mock successful response
-                setSubmitStatus('success');
-                setFormData({ name: '', email: '', phone: '', projectType: '', message: '' });
-                console.log('✅ LOCAL TEST: Form submission successful!');
-                return;
-            }
+            console.log('🚀 Submitting form data:', formData);
             
-            // Production API call
+            // Always call the production API (no more fake local testing)
             const response = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: {
@@ -50,16 +37,18 @@ const ContactForm = () => {
             });
 
             const result = await response.json();
+            console.log('📧 API Response:', result);
 
             if (response.ok) {
                 setSubmitStatus('success');
                 setFormData({ name: '', email: '', phone: '', projectType: '', message: '' });
+                console.log('✅ Email sent successfully!');
             } else {
-                console.error('API Error:', result);
+                console.error('❌ API Error:', result);
                 setSubmitStatus('error');
             }
         } catch (error) {
-            console.error('Network error:', error);
+            console.error('❌ Network error:', error);
             setSubmitStatus('error');
         } finally {
             setIsSubmitting(false);

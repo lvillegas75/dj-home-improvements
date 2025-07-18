@@ -9,11 +9,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  console.log('🔍 FUNCTION CALLED! - EMAIL VERSION');
-  console.log('🔍 Method:', req.method);
-
   if (req.method === 'OPTIONS') {
-    console.log('✅ OPTIONS request handled');
     return res.status(200).end();
   }
 
@@ -24,17 +20,16 @@ export default async function handler(req, res) {
   try {
     const { name, email, phone, projectType, timeline, budget, message } = req.body;
     
-    console.log('📧 Form data received:', { name, email, phone, projectType, timeline, budget });
-    console.log('🔑 API Key exists:', !!process.env.RESEND_API_KEY);
-    console.log('🔑 API Key first 10 chars:', process.env.RESEND_API_KEY?.substring(0, 10));
-
-    // Check if all required fields are present
+    // Check if required fields are present
     if (!name || !email) {
-      console.error('❌ Missing required fields:', { name: !!name, email: !!email });
       return res.status(400).json({ error: 'Name and email are required' });
     }
 
-    console.log('📧 About to send email...');
+    // Check if API key exists
+    if (!process.env.RESEND_API_KEY) {
+      console.error('❌ RESEND_API_KEY not found');
+      return res.status(500).json({ error: 'Email service not configured' });
+    }
 
     // Create HTML email template
     const emailHtml = `
@@ -68,46 +63,27 @@ export default async function handler(req, res) {
       </div>
     `;
 
-    console.log('📧 Email template created, calling Resend API...');
-
-    // Send email using Resend - but let's use a real email address for testing
-    const emailData = {
+    // Send email using Resend
+    const data = await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: ['lvillegas75@gmail.com'], // Using your email for testing first
+      to: ['lvillegas75@gmail.com'], // Your email for testing
       subject: `New Project Estimate Request from ${name}`,
       html: emailHtml,
-    };
+    });
 
-    console.log('📧 Email data:', emailData);
-
-    const data = await resend.emails.send(emailData);
-
-    console.log('✅ Resend API response:', data);
+    console.log('✅ Email sent:', data.id);
 
     return res.status(200).json({ 
       message: 'Email sent successfully!',
-      emailId: data.id,
-      debug: {
-        apiKeyExists: !!process.env.RESEND_API_KEY,
-        recipient: emailData.to[0]
-      }
+      emailId: data.id
     });
 
   } catch (error) {
-    console.error('❌ Detailed error:', {
-      message: error.message,
-      stack: error.stack,
-      name: error.name,
-      apiKeyExists: !!process.env.RESEND_API_KEY
-    });
+    console.error('❌ Email error:', error.message);
     
     return res.status(500).json({ 
       error: 'Failed to send email',
-      details: error.message,
-      debug: {
-        apiKeyExists: !!process.env.RESEND_API_KEY,
-        errorType: error.name
-      }
+      details: error.message
     });
   }
 }
