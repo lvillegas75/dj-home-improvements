@@ -1,9 +1,9 @@
 // DJ Home Improvements - Contact Form Email Handler
-const { Resend } = require('resend');
+import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -67,14 +67,22 @@ module.exports = async function handler(req, res) {
     `;
 
     // Send email using Resend
-    const data = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+    const { data, error } = await resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
       to: ['lvillegas75@gmail.com'], // Your email for testing
       subject: `New Project Estimate Request from ${name}`,
       html: emailHtml,
     });
 
-    console.log('✅ Email sent:', data.id);
+    if (error) {
+      console.error('❌ Resend error:', error);
+      return res.status(500).json({ 
+        error: 'Failed to send email',
+        details: error.message || 'Resend API error'
+      });
+    }
+
+    console.log('✅ Email sent:', data);
 
     return res.status(200).json({ 
       message: 'Email sent successfully!',
