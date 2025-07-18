@@ -25,9 +25,7 @@ const ContactForm = () => {
         setSubmitStatus('');
         
         try {
-            console.log('🚀 Submitting form data:', formData);
-            
-            // Always call the production API (no more fake local testing)
+            // Call the production API
             const response = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: {
@@ -37,18 +35,14 @@ const ContactForm = () => {
             });
 
             const result = await response.json();
-            console.log('📧 API Response:', result);
 
             if (response.ok) {
                 setSubmitStatus('success');
                 setFormData({ name: '', email: '', phone: '', projectType: '', message: '' });
-                console.log('✅ Email sent successfully!');
             } else {
-                console.error('❌ API Error:', result);
                 setSubmitStatus('error');
             }
         } catch (error) {
-            console.error('❌ Network error:', error);
             setSubmitStatus('error');
         } finally {
             setIsSubmitting(false);

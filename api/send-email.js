@@ -31,6 +31,9 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Email service not configured' });
     }
 
+    console.log('🔑 API Key status:', process.env.RESEND_API_KEY ? 'EXISTS' : 'MISSING');
+    console.log('🔑 API Key prefix:', process.env.RESEND_API_KEY?.substring(0, 8) || 'NONE');
+
     // Create HTML email template
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
