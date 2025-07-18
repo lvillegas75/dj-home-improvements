@@ -25,6 +25,22 @@ const ContactForm = () => {
         setSubmitStatus('');
         
         try {
+            // Check if we're in development mode
+            if (process.env.NODE_ENV === 'development') {
+                // Mock response for local testing
+                console.log('LOCAL DEVELOPMENT - Form data:', formData);
+                
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Mock successful response
+                setSubmitStatus('success');
+                setFormData({ name: '', email: '', phone: '', projectType: '', message: '' });
+                console.log('✅ LOCAL TEST: Form submission successful!');
+                return;
+            }
+            
+            // Production API call
             const response = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: {
