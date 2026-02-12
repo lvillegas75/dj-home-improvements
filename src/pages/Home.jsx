@@ -8,18 +8,43 @@ const Home = () => {
             <section 
                 className="hero-section"
                 style={{
-                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/kitchen-hero.jpg')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center 80%',
+                    position: 'relative',
                     height: '80vh',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: 'white',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    overflow: 'hidden'
                 }}
             >
-                <div>
+                {/* Background Image */}
+                <img 
+                    src="/kitchen-hero.jpg" 
+                    alt="Kitchen Renovation" 
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center 80%',
+                        zIndex: 1
+                    }}
+                />
+                {/* Dark Overlay */}
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    zIndex: 2
+                }}></div>
+                {/* Content */}
+                <div style={{ position: 'relative', zIndex: 3 }}>
                     <h1 style={{ fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '20px', color: 'white' }}>
                         We design the home that reflects who you are.
                     </h1>
