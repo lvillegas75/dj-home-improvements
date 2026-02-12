@@ -8,7 +8,7 @@ const Home = () => {
             <section 
                 className="hero-section"
                 style={{
-                    background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/kitchen-hero.jpg')`,
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/kitchen-hero.jpg')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center 80%',
                     height: '80vh',
