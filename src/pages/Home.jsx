@@ -20,7 +20,7 @@ const Home = () => {
             >
                 {/* Background Image */}
                 <img 
-                    src="/kitchen-hero.jpg" 
+                    src="/daniel0.png" 
                     alt="Kitchen Renovation" 
                     style={{
                         position: 'absolute',
