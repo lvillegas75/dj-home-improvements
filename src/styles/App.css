@@ -1,60 +1,194 @@
+/* Base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #ffffff;
 }
 
 header {
-    background: #35424a;
-    color: #ffffff;
-    padding: 10px 0;
-    text-align: center;
+  background: #35424a;
+  color: #ffffff;
+  padding: 10px 0;
+  text-align: center;
 }
 
 footer {
-    background: #35424a;
-    color: #ffffff;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+  background: #35424a;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
 .container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
 }
 
 h1, h2, h3 {
-    color: #35424a;
+  color: #35424a;
 }
 
 form {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 form input, form textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 form button {
-    background: #35424a;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
+  background: #35424a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 form button:hover {
-    background: #45a049;
+  background: #45a049;
+}
+
+/* Responsive Navigation */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block !important;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 80px;
+    padding-left: 30px;
+    gap: 20px;
+    align-items: flex-start !important;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    transition: right 0.3s ease-in-out;
+  }
+
+  .nav-menu.nav-open {
+    right: 0;
+  }
+
+  .nav-menu a {
+    font-size: 1.2rem;
+    padding: 10px 0;
+  }
+
+  .nav-menu button {
+    margin-top: 20px;
+    width: calc(100% - 30px);
+  }
+}
+
+/* Responsive Hero Section */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 60vh !important;
+    padding: 20px !important;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem !important;
+    padding: 0 10px;
+  }
+
+  .hero-section button {
+    padding: 12px 24px !important;
+    font-size: 1rem !important;
+  }
+}
+
+/* Responsive Sections */
+@media (max-width: 768px) {
+  section {
+    padding: 40px 20px !important;
+  }
+
+  section h2 {
+    font-size: 1.8rem !important;
+  }
+
+  /* Grid layouts become single column */
+  section > div > div[style*="grid"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Responsive About, Services, Contact pages */
+@media (max-width: 768px) {
+  .about,
+  .services,
+  .contact {
+    padding: 40px 20px !important;
+  }
+
+  .about h1,
+  .services h1,
+  .contact h1 {
+    font-size: 2rem !important;
+  }
+}
+
+/* Responsive Form */
+@media (max-width: 768px) {
+  form input,
+  form select,
+  form textarea {
+    padding: 12px !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+  footer {
+    padding: 30px 20px !important;
+  }
+
+  footer > div {
+    flex-direction: column !important;
+    gap: 20px !important;
+    text-align: center;
+  }
+}
+
+/* Overlay for mobile menu */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.menu-overlay.active {
+  display: block;
 }
